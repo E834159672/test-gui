@@ -159,8 +159,9 @@ impl State for MainViewState {
                     println!("in messages: ScanCodeFinished");
                     self.scan_result.store(true, Ordering::SeqCst);
                     ctx.send_window_request(WindowRequest::Close);
-                    //ctx.window().update(true);
-                    //ctx.event_adapter().push_event_direct(ctx.widget().entity(), SystemEvent::Quit);
+                    // fix the problem: window not close
+                    let entity = ctx.widget().entity();
+                    ctx.event_adapter().push_event(entity, WindowEvent::ActiveChanged(true));
                 }
             }
         }
